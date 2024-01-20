@@ -1,0 +1,49 @@
+# Import statements
+from fastapi import FastAPI, Request, Depends, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel, Field
+
+# Initialize FastAPI app
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+# Data models
+class Picture(BaseModel):
+    id: int
+    image_url: str
+
+class Status(BaseModel):
+    id: int
+    content: str
+
+class SushiGift(BaseModel):
+    id: int
+    amount: int = Field(..., ge=1)
+
+# Home endpoint - Masonry brick layout with pictures
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    pictures = get_pictures_from_database()  # Placeholder function, implement query to fetch pictures from the database
+    return templates.TemplateResponse("home.html", {"request": request, "pictures": pictures})
+
+# Monica Profile endpoint - Display statuses and favorites count
+@app.get("/monica-profile", response_class=HTMLResponse)
+def monica_profile(request: Request):
+    statuses = get_statuses_from_database()  # Placeholder function, implement query to fetch statuses from the database
+    favorites_count = get_favorites_count_from_database()  # Placeholder function, implement query to fetch favorites count from the database
+    return templates.TemplateResponse("monica_profile.html", {"request": request, "statuses": statuses, "favorites_count": favorites_count})
+
+# Wave endpoint - Endpoint for waving to Monica
+@app.post("/wave")
+async def wave(request: Request):
+    return {"message": "Waving to Monica!"}
+
+# Sushi Gift endpoint - Endpoint for saving sushi gift details
+async def get_sushi_gift(sushi_gift: SushiGift = Depends()):
+    return sushi_gift
+
+@app.post("/sushi-gift")
+def sushi_gift(sushi_gift: SushiGift = Depends(get_sushi_gift)):
+    save_sushi_gift_to_database(sushi_gift)  # Placeholder function, implement logic to save sushi gift details to the database
+    return {"message": "Sushi gift saved successfully"}
