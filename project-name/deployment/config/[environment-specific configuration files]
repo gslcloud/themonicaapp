@@ -1,0 +1,20 @@
+import os
+from pydantic import BaseModel, parse_obj_as
+from pydantic.errors import PydanticTypeError
+from typing import Dict
+
+class Settings(BaseModel):
+    app_name: str
+    log_level: str
+    database: Dict[str, str]
+
+# Load environment-specific configuration settings
+environment = os.getenv("ENVIRONMENT", "development")
+config_file = "config.yaml"
+
+try:
+    config = parse_obj_as(Settings, file=config_file, content_type="application/x-yaml")[environment]
+except PydanticTypeError as e:
+    raise ValueError(f"Error loading configuration file: {e}")
+
+# Additional code...
