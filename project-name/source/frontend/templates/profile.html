@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-info">
+          <div class="profile-picture">
+            <img src="{{ user.profile_picture }}" alt="Profile Picture">
+          </div>
+          <h2>{{ user.name }}</h2>
+          <p class="bio">{{ user.bio }}</p>
+          <p class="followers">Followers: {{ user.followers }}</p>
+          <p class="following">Following: {{ user.following }}</p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="status-section">
+          <h3>Statuses:</h3>
+          <ul class="status-list">
+            {% for status in user.statuses %}
+            <li>{{ status }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="sushi-gifting-section">
+          <h3>Sushi Gifting:</h3>
+          <form method="POST" action="/profile/{{ user.id }}/gift">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="sushi-amount">Number of Sushi:</label>
+              <input type="number" class="form-control" id="sushi-amount" name="sushi_amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Sushi</button>
+          </form>
+          {% if sushi_gifting_success %}
+          <div class="sushi-gifting-info alert alert-success">
+            Sushi sent successfully!
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
