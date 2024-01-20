@@ -1,44 +1,72 @@
-class Lightbox {
+class lightbox {
   constructor() {
-    this.lightboxElement = null;
-    // ...
+    this.lightboxContainer = document.querySelector(".lightbox");
+    this.lightboxImage = this.lightboxContainer.querySelector(".lightbox-image");
+    this.closeButton = this.lightboxContainer.querySelector(".lightbox-close");
+
+    this.thumbnails = Array.from(document.querySelectorAll(".thumbnail"));
+    this.currentImageIndex = 0;
+
+    this.initialize();
   }
 
-  init() {
-    this.thumbnails = document.querySelectorAll('.image-thumbnail');
-    // ...
+  initialize() {
+    this.addThumbnailEventListeners();
+    this.addKeyboardEventListeners();
+    this.addCloseButtonEventListener();
+  }
 
-    this.thumbnails.forEach((thumbnail) => {
-      thumbnail.addEventListener('click', () => {
-        this.showLightbox();
+  addThumbnailEventListeners() {
+    this.thumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener("click", () => {
+        this.showLightbox(index);
       });
     });
-
-    // ...
   }
 
-  showLightbox() {
-    // ...
+  showLightbox(imageIndex) {
+    this.currentImageIndex = imageIndex;
+    this.lightboxImage.src = this.thumbnails[imageIndex].src;
+    this.lightboxContainer.classList.add("show");
+    document.body.classList.add("lightbox-active");
   }
 
   hideLightbox() {
-    // ...
+    this.lightboxContainer.classList.remove("show");
+    document.body.classList.remove("lightbox-active");
   }
 
-  showNextImage() {
-    // ...
+  addKeyboardEventListeners() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        this.showPreviousImage();
+      } else if (event.key === "ArrowRight") {
+        this.showNextImage();
+      } else if (event.key === "Escape") {
+        this.hideLightbox();
+      }
+    });
   }
 
   showPreviousImage() {
-    // ...
+    if (this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+      this.lightboxImage.src = this.thumbnails[this.currentImageIndex].src;
+    }
   }
 
-  handleKeyboardNavigation(event) {
-    // ...
+  showNextImage() {
+    if (this.currentImageIndex < this.thumbnails.length - 1) {
+      this.currentImageIndex++;
+      this.lightboxImage.src = this.thumbnails[this.currentImageIndex].src;
+    }
+  }
+
+  addCloseButtonEventListener() {
+    this.closeButton.addEventListener("click", () => {
+      this.hideLightbox();
+    });
   }
 }
 
-const lightboxInstance = new Lightbox();
-lightboxInstance.init();
-
-export default Lightbox;
+const myLightbox = new lightbox();
