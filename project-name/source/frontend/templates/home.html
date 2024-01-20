@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lightbox.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/masonry.pkgd.min.css') }}">
+</head>
+<body>
+
+  <header>
+    <!-- Header content here -->
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <!-- Footer content here -->
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/masonry.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/lightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>
