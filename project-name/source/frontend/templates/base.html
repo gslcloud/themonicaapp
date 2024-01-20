@@ -1,0 +1,27 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // Heart Likes
+  const likeBtns = document.querySelectorAll('.like-btn');
+  likeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('liked');
+      // Send request to backend API to handle the like
+      // and update the like count on the server-side
+      // Handle the response as needed
+    });
+  });
+
+  // Maneki Neko Interaction
+  const waveBar = document.querySelector('.wave-bar');
+  if (waveBar) {
+    // Add your code to handle Maneki Neko interaction here
+  }
+
+  // Image Lightbox
+  const images = document.querySelectorAll('.lightbox-image');
+  images.forEach(image => {
+    image.addEventListener('click', () => {
+      // Add your code to display the lightbox overlay,
+      // enlarge the clicked image, and close the lightbox on click
+    });
+  });
+});
