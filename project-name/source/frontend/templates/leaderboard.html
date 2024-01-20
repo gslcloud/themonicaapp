@@ -1,0 +1,62 @@
+const leaderboardTable = document.getElementById('leaderboardTable');
+const leaderboardBody = document.getElementById('leaderboardBody');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const errorMessage = document.getElementById('errorMessage');
+const retryButton = document.getElementById('retryButton');
+
+fetchLeaderboardData();
+
+function fetchLeaderboardData() {
+  loadingSpinner.style.display = 'block';
+  leaderboardTable.style.display = 'none';
+  errorMessage.style.display = 'none';
+  retryButton.style.display = 'none';
+
+  fetch('/api/leaderboard')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch leaderboard data');
+      }
+      return response.json();
+    })
+    .then(data => {
+      displayLeaderboardData(data);
+    })
+    .catch(error => {
+      displayErrorMessage(error.message);
+    })
+    .finally(() => {
+      loadingSpinner.style.display = 'none';
+    });
+}
+
+function displayLeaderboardData(data) {
+  leaderboardBody.textContent = '';
+
+  data.forEach((donor, index) => {
+    const row = document.createElement('tr');
+    const rankCell = document.createElement('td');
+    const nameCell = document.createElement('td');
+    const amountCell = document.createElement('td');
+
+    rankCell.textContent = index + 1;
+    nameCell.textContent = donor.name;
+    amountCell.textContent = donor.amount;
+
+    row.appendChild(rankCell);
+    row.appendChild(nameCell);
+    row.appendChild(amountCell);
+
+    leaderboardBody.appendChild(row);
+  });
+
+  leaderboardTable.style.display = 'table';
+}
+
+function displayErrorMessage(message) {
+  errorMessage.textContent = message;
+  errorMessage.style.display = 'block';
+  retryButton.style.display = 'block';
+}
+
+retryButton.addEventListener('click', fetchLeaderboardData);
