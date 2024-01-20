@@ -1,0 +1,21 @@
+// Enhanced Implementation
+
+// Get the lightbox elements
+const lightboxOverlay = document.getElementById('lightbox-overlay');
+const lightboxCloseButton = document.getElementById('lightbox-close');
+const lightboxImage = document.getElementById('lightbox-image');
+
+// Add click event listeners to the pictures for the lightbox functionality
+const pictures = document.querySelectorAll('.picture');
+pictures.forEach((picture) => {
+  picture.addEventListener('click', () => {
+    const imageUrl = picture.getAttribute('src');
+    lightboxImage.setAttribute('src', imageUrl);
+    lightboxOverlay.classList.add('show');
+  });
+});
+
+// Close the lightbox when the close button is clicked
+lightboxCloseButton.addEventListener('click', () => {
+  lightboxOverlay.classList.remove('show');
+});
