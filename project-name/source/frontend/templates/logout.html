@@ -1,0 +1,18 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const confirmationModal = document.getElementById("confirmationModal");
+    const logoutButton = document.getElementById("logoutButton");
+    const confirmLogoutButton = document.getElementById("confirmLogoutButton");
+    const cancelLogoutButton = document.getElementById("cancelLogoutButton");
+
+    logoutButton.addEventListener("click", function() {
+        confirmationModal.classList.remove("hidden");
+    });
+
+    confirmLogoutButton.addEventListener("click", function() {
+        document.getElementById("logoutForm").submit();
+    });
+
+    cancelLogoutButton.addEventListener("click", function() {
+        confirmationModal.classList.add("hidden");
+    });
+});
