@@ -1,5 +1,4 @@
 
-```
 # Monica Platform
 
 The Monica Platform is a web application centered around Monica, offering a unique and engaging experience for her fans. This platform allows users to explore Monica's world, interact with her content, and show their support through sushi gifting.
@@ -93,4 +92,4 @@ Thank you for your interest in contributing to the Monica Platform! Here are the
 ## License
 
 This project is licensed under the [License Name]. [Link to License File]
-```
+
